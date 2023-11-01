@@ -1,0 +1,15 @@
+Language: Cpp
+BasedOnStyle: Google
+
+# 连续赋值时，对齐所有等号
+AlignConsecutiveAssignments:	true
+# 连续声明时，对齐所有声明的变量名
+AlignConsecutiveDeclarations:	true
+# 对齐连续的尾随的注释
+AlignTrailingComments:	true
+# 总是在template声明后换行
+AlwaysBreakTemplateDeclarations:	true
+# 指针和引用的对齐: Left, Right, Middle
+PointerAlignment:	Left
+# 列限制
+ColumnLimit:	100
