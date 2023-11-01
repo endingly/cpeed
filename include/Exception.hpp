@@ -2,6 +2,7 @@
 #include <cstdarg>
 #include <string>
 
+/// @brief 异常基类
 class Exception {
  private:
   std::string msg;

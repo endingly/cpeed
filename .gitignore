@@ -1,4 +1,6 @@
-build
-.vscode
-.cache
-out
+build/
+.vscode/
+.cache/
+out/
+
+include/config.hpp

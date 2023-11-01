@@ -5,7 +5,7 @@
 #include "Logger.hpp"
 #include "Segment.hpp"
 
-#define SEGMENT_FILE_EXTENSION ".aria2"
+#define SEGMENT_FILE_EXTENSION ".df"
 
 /**
  * This class holds the download progress of the one download entry.

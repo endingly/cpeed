@@ -3,6 +3,7 @@
 
 #include "DiskWriter.hpp"
 
+/// @brief 接口的实现基类
 class AbstractDiskWriter : public DiskWriter {
  protected:
   int fd;

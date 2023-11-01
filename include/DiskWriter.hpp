@@ -2,7 +2,7 @@
 
 #include <string>
 
-/// @brief 用于将数据写入到磁盘接口
+/// @brief 接口 用于将数据写入到磁盘接口
 class DiskWriter {
  public:
   virtual ~DiskWriter() {}

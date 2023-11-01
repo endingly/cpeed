@@ -1,22 +1,22 @@
 #pragma once
 
-#include "AbstractCommand.hpp"
-#include "TransferEncoding.hpp"
 #include <string>
 
+#include "AbstractCommand.hpp"
+#include "TransferEncoding.hpp"
+
 class DownloadCommand : public AbstractCommand {
-protected:
+ protected:
   bool executeInternal(Segment segment);
 
   bool prepareForRetry();
   bool prepareForNextSegment();
 
-public:
+ public:
   DownloadCommand(int cuid, Request* req, DownloadEngine* e, Socket* s);
   virtual ~DownloadCommand();
 
-  virtual TransferEncoding* getTransferEncoding(string transferEncoding) = 0;
+  virtual TransferEncoding* getTransferEncoding(std::string transferEncoding) = 0;
 
-  string transferEncoding;
-
+  std::string transferEncoding;
 };

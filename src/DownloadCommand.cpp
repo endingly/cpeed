@@ -2,6 +2,9 @@
 
 #include <sys/time.h>
 
+#include <cassert>
+
+
 #include "DlRetryException.hpp"
 #include "HttpInitiateConnectionCommand.hpp"
 #include "InitiateConnectionCommandFactory.hpp"
