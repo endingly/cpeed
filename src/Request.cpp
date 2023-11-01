@@ -2,7 +2,7 @@
 
 #include "Util.hpp"
 
-using std::string, std::map;
+using std::string, std::map, std::pair;
 #define MAX_RETRY_COUNT 5
 
 Request::Request() : port(0), retryCount(0) {

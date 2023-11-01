@@ -22,22 +22,21 @@
 #ifndef _D_OPTION_H_
 #define _D_OPTION_H_
 
-#include <string>
 #include <map>
-
-using namespace std;
+#include <string>
 
 class Option {
-private:
-  map<string, string> table;
-public:
+ private:
+  std::map<std::string, std::string> table;
+
+ public:
   Option();
   ~Option();
 
-  void put(const string& name, const string& value);
-  bool defined(const string& name) const;
-  string get(const string& name) const;
-  int getAsInt(const string& name) const;
+  void        put(const std::string& name, const std::string& value);
+  bool        defined(const std::string& name) const;
+  std::string get(const std::string& name) const;
+  int         getAsInt(const std::string& name) const;
 };
 
-#endif // _D_OPTION_H_
+#endif  // _D_OPTION_H_

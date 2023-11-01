@@ -3,24 +3,23 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 class Cookie {
  public:
-  string name;
-  string value;
-  string expires;
-  string path;
-  string domain;
-  bool   secure;
+  std::string name;
+  std::string value;
+  std::string expires;
+  std::string path;
+  std::string domain;
+  bool        secure;
 
  public:
-  Cookie(string name, string value, string expires, string path, string domain, bool secure)
+  Cookie(std::string name, std::string value, std::string expires, std::string path,
+         std::string domain, bool secure)
       : name(name), value(value), expires(expires), path(path), domain(domain), secure(secure) {}
   Cookie() : secure(false) {}
   ~Cookie() {}
-  string toString() const { return name + "=" + value; }
-  void   clear() {
+  std::string toString() const { return name + "=" + value; }
+  void        clear() {
     name = value = expires = path = domain = "";
     secure                                 = false;
   }
@@ -28,15 +27,15 @@ class Cookie {
 
 class CookieBox {
  private:
-  vector<Cookie> cookies;
-  void           setField(Cookie& cookie, string name, string value) const;
+  std::vector<Cookie> cookies;
+  void                setField(Cookie& cookie, std::string name, std::string value) const;
 
  public:
   CookieBox();
   ~CookieBox();
-  void           clear();
-  void           add(const Cookie& cookie);
-  void           add(string cookieStr);
-  void           parse(Cookie& cookie, string cookieStr) const;
-  vector<Cookie> criteriaFind(string host, string dir, bool secure) const;
+  void                clear();
+  void                add(const Cookie& cookie);
+  void                add(std::string cookieStr);
+  void                parse(Cookie& cookie, std::string cookieStr) const;
+  std::vector<Cookie> criteriaFind(std::string host, std::string dir, bool secure) const;
 };

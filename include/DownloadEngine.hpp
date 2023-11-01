@@ -12,20 +12,20 @@
 
 class DownloadEngine {
  private:
-  void            waitData();
-  vector<Socket*> rsockets;
-  vector<Socket*> wsockets;
+  void                 waitData();
+  std::vector<Socket*> rsockets;
+  std::vector<Socket*> wsockets;
 
-  bool addSocket(vector<Socket*>& sockets, Socket* socket);
-  bool deleteSocket(vector<Socket*>& sockets, Socket* socket);
+  bool addSocket(std::vector<Socket*>& sockets, Socket* socket);
+  bool deleteSocket(std::vector<Socket*>& sockets, Socket* socket);
 
  public:
-  bool            noWait;
-  queue<Command*> commands;
-  SegmentMan*     segmentMan;
-  DiskWriter*     diskWriter;
-  Logger*         logger;
-  Option*         option;
+  bool                 noWait;
+  std::queue<Command*> commands;
+  SegmentMan*          segmentMan;
+  DiskWriter*          diskWriter;
+  Logger*              logger;
+  Option*              option;
 
   DownloadEngine();
   ~DownloadEngine();
@@ -37,5 +37,3 @@ class DownloadEngine {
   bool addSocketForWriteCheck(Socket* socket);
   bool deleteSocketForWriteCheck(Socket* socket);
 };
-
-#endif  // _D_DOWNLOAD_ENGINE_H_

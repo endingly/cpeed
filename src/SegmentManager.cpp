@@ -12,6 +12,7 @@
 #include "File.hpp"
 #include "Message.hpp"
 #include "Util.hpp"
+using std::vector, std::string;
 
 SegmentMan::SegmentMan() : totalSize(0), isSplittable(true), downloadStarted(false), dir(".") {}
 

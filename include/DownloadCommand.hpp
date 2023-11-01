@@ -20,5 +20,3 @@ public:
   string transferEncoding;
 
 };
-
-#endif // _D_DOWNLOAD_COMMAND_H_

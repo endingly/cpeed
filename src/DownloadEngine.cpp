@@ -5,10 +5,14 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <algorithm>
+#include <cassert>
+#include <iostream>
+
 #include "DlAbortException.hpp"
 #include "Util.hpp"
 
-using namespace std;
+using std::cout, std::vector, std::map, std::endl, std::flush, std::find;
 
 DownloadEngine::DownloadEngine() : noWait(false) {}
 

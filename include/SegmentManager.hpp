@@ -5,8 +5,6 @@
 #include "Logger.hpp"
 #include "Segment.hpp"
 
-using namespace std;
-
 #define SEGMENT_FILE_EXTENSION ".aria2"
 
 /**
@@ -15,7 +13,7 @@ using namespace std;
 class SegmentMan {
  private:
   void  read(FILE* file);
-  FILE* openSegFile(string segFilename, string mode);
+  FILE* openSegFile(std::string segFilename, std::string mode);
 
  public:
   /**
@@ -42,22 +40,22 @@ class SegmentMan {
   /**
    * Holds segments.
    */
-  vector<Segment> segments;
+  std::vector<Segment> segments;
   /**
    * Respresents the file name of the downloaded file.
    * If the URL does not contain file name part(http://www.rednoah.com/, for
    * example), this value may be 0 length string.
    * The default value is 0 length string.
    */
-  string filename;
+  std::string filename;
   /**
    * directory to store a file
    */
-  string dir;
+  std::string dir;
   /**
    * User defined file name for downloaded content
    */
-  string ufilename;
+  std::string ufilename;
 
   Logger* logger;
 
@@ -68,12 +66,12 @@ class SegmentMan {
    * Returns dir+"/"+filename.
    * If filename is empty, then returns dir+"/"+"inex.html";
    */
-  string getFilePath() {
+  std::string getFilePath() {
     return (dir == "" ? "." : dir) + "/" +
            (ufilename == "" ? (filename == "" ? "index.html" : filename) : ufilename);
   }
 
-  string getSegmentFilePath() { return getFilePath() + SEGMENT_FILE_EXTENSION; }
+  std::string getSegmentFilePath() { return getFilePath() + SEGMENT_FILE_EXTENSION; }
 
   /**
    * Sets the cuid of the holded segments with specified cuid to 0.

@@ -4,6 +4,8 @@
 
 #include "Util.hpp"
 
+using std::string, std::vector, std::pair;
+
 CookieBox::CookieBox() {}
 
 CookieBox::~CookieBox() {}
