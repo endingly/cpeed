@@ -1,6 +1,5 @@
 #pragma once
-#include <stdarg.h>
-
+#include <cstdarg>
 #include <string>
 
 class Exception {
