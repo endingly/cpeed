@@ -1,3 +1,4 @@
+#include <getopt.h>
 #include <libgen.h>
 #include <signal.h>
 #include <unistd.h>
@@ -16,12 +17,14 @@
 #include "SimpleLogger.hpp"
 #include "Util.hpp"
 #include "config.hpp"
-extern char* optarg;
-extern int   optind, opterr, optopt;
-#include <getopt.h>
-
 using namespace std;
 
+extern char* optarg;
+extern int   optind, opterr, optopt;
+
+/// @brief 清空请求
+/// @details 释放请求内存
+/// @param req
 void clearRequest(Request* req) { delete (req); }
 
 DownloadEngine* e;
@@ -47,27 +50,7 @@ void addCommand(int cuid, const char* url, vector<Request*> requests) {
   }
 }
 
-void showVersion() {
-  cout << PACKAGE_NAME << " version " << PACKAGE_VERSION << endl;
-  cout << "Copyright (C) 2006 Tatsuhiro Tsujikawa" << endl;
-  cout << endl;
-  cout << "This program is free software; you can redistribute it and/or modify" << endl;
-  cout << "it under the terms of the GNU General Public License as published by" << endl;
-  cout << "the Free Software Foundation; either version 2 of the License, or" << endl;
-  cout << "(at your option) any later version." << endl;
-  cout << endl;
-  cout << "This program is distributed in the hope that it will be useful," << endl;
-  cout << "but WITHOUT ANY WARRANTY; without even the implied warranty of" << endl;
-  cout << "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the" << endl;
-  cout << "GNU General Public License for more details." << endl;
-  cout << endl;
-  cout << "You should have received a copy of the GNU General Public License" << endl;
-  cout << "along with this program; if not, write to the Free Software" << endl;
-  cout << "Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA" << endl;
-  cout << endl;
-  cout << "Contact Info: Tasuhiro Tsujikawa <tujikawa at rednoah dot com>" << endl;
-  cout << endl;
-}
+void showVersion() { cout << PACKAGE_NAME << " version " << PACKAGE_VERSION << endl; }
 
 void showUsage() {
   cout << "Usage: " << PACKAGE_NAME << " [options] URL ..." << endl;
@@ -95,12 +78,11 @@ void showUsage() {
   cout << " or a download fails." << endl;
   cout << "Examples:" << endl;
   cout << " Download a file by 1 connection:" << endl;
-  cout << "  aria2c http://AAA.BBB.CCC/file.zip" << endl;
+  cout << "  cpeed http://AAA.BBB.CCC/file.zip" << endl;
   cout << " Download a file by 2 connections:" << endl;
-  cout << "  aria2c -s 2 http://AAA.BBB.CCC/file.zip" << endl;
+  cout << "  cpeed -s 2 http://AAA.BBB.CCC/file.zip" << endl;
   cout << " Download a file by 2 connections, each connects to a different server." << endl;
-  cout << "  aria2c http://AAA.BBB.CCC/file.zip http://DDD.EEE.FFF/GGG/file.zip" << endl;
-  cout << "Reports bugs to <tujikawa at rednoah dot com>" << endl;
+  cout << "  cpeed http://AAA.BBB.CCC/file.zip http://DDD.EEE.FFF/GGG/file.zip" << endl;
 }
 
 int main(int argc, char* argv[]) {
