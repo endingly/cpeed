@@ -1,4 +1,3 @@
-#include <getopt.h>
 #include <libgen.h>
 #include <signal.h>
 #include <unistd.h>
@@ -19,9 +18,6 @@
 #include "Util.hpp"
 #include "config.hpp"
 using namespace std;
-
-extern char* optarg;
-extern int   optind, opterr, optopt;
 
 /// @brief 清空请求
 /// @details 释放请求内存
@@ -51,43 +47,22 @@ void addCommand(int cuid, const char* url, vector<Request*> requests) {
   }
 }
 
-void showVersion() { cout << PACKAGE_NAME << " version " << PACKAGE_VERSION << endl; }
-
-void showUsage() {
-  cout << "Usage: " << PACKAGE_NAME << " [options] URL ..." << endl;
-  cout << "Options:" << endl;
-  cout << " -d, --dir=DIR              The directory to store downloaded file." << endl;
-  cout << " -o, --out=FILE             The file name for downloaded file." << endl;
-  cout << " -l, --log=LOG              The file path to store log. If '-' is specified," << endl;
-  cout << "                            log is written to stdout." << endl;
-  cout << " -D, --daemon               Run as daemon." << endl;
-  cout << " -s, --split=N              Download a file using s connections. s must be" << endl;
-  cout << "                            between 1 and 5. If this option is specified the" << endl;
-  cout << "                            first URL is used, and the other URLs are ignored." << endl;
-  cout << " --http-proxy=HOST:PORT     Use HTTP proxy server. This affects to all" << endl;
-  cout << "                            URLs." << endl;
-  cout << " --http-user=USER           Set HTTP user. This affects to all URLs." << endl;
-  cout << " --http-passwd=PASSWD       Set HTTP password. This affects to all URLs." << endl;
-  cout << " --http-proxy-user=USER     Set HTTP proxy user. This affects to all URLs" << endl;
-  cout << " --http-proxy-passwd=PASSWD Set HTTP proxy password. This affects to all URLs." << endl;
-  cout << " --http-auth-scheme=SCHEME  Set HTTP authentication scheme. Currently, BASIC" << endl;
-  cout << "                            is the only supported scheme." << endl;
-  cout << " -v, --version              Print the version number and exit." << endl;
-  cout << " -h, --help                 Print this message and exit." << endl;
-  cout << "URL:" << endl;
-  cout << " You can specify multiple URLs. All URLs must point to the same file" << endl;
-  cout << " or a download fails." << endl;
-  cout << "Examples:" << endl;
-  cout << " Download a file by 1 connection:" << endl;
-  cout << "  cpeed http://AAA.BBB.CCC/file.zip" << endl;
-  cout << " Download a file by 2 connections:" << endl;
-  cout << "  cpeed -s 2 http://AAA.BBB.CCC/file.zip" << endl;
-  cout << " Download a file by 2 connections, each connects to a different server." << endl;
-  cout << "  cpeed http://AAA.BBB.CCC/file.zip http://DDD.EEE.FFF/GGG/file.zip" << endl;
+void setUsageMessage() {
+  std::string s1 = "Usage: \n";
+  std::string s2 = " You can specify multiple URLs. All URLs must point to the same file\n";
+  std::string s3 = " or a download fails.\n";
+  std::string s4 = "Example:\n";
+  std::string s5 = " Download a file by 1 connection:\n";
+  std::string s6 = "  $ cpeed http://example.com/file.zip\n";
+  std::string s7 = " Download a file by 2 connections:\n";
+  std::string s8 = "  $ cpeed http://example.com/file.zip http://example.com/file.zip\n";
+  auto        s  = s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8;
+  gflags::SetUsageMessage(s.c_str());
 }
 
 int main(int argc, char* argv[]) {
-  gflags::SetVersionString(PACKAGE_NAME + "\n" + PACKAGE_VERSION);
+  gflags::SetVersionString(PACKAGE_VERSION);
+  setUsageMessage();
   bool   stdoutLog = false;
   string logfile;
   string dir;
@@ -147,7 +122,7 @@ int main(int argc, char* argv[]) {
 
   if (optind == argc) {
     cerr << "specify at least one URL" << endl;
-    // showUsage();
+    std::cout << gflags::ProgramUsage() << std::endl;
     exit(1);
   }
   if (daemonMode) {

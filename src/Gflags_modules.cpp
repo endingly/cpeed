@@ -26,7 +26,6 @@ bool ValidateSplit(const char* flagname, int32_t value) {
   return false;
 }
 DEFINE_validator(split, &ValidateSplit);
-
 bool ValidateHttpProxy(const char* flagname, const std::string& value) {
   if (value.empty()) {
     return true;
@@ -42,7 +41,6 @@ bool ValidateHttpProxy(const char* flagname, const std::string& value) {
   return false;
 }
 DEFINE_validator(http_proxy, &ValidateHttpProxy);
-
 bool ValidateHttpAuthScheme(const char* flagname, const std::string& value) {
   if (value.empty() || value == "BASIC") {
     return true;
@@ -51,3 +49,4 @@ bool ValidateHttpAuthScheme(const char* flagname, const std::string& value) {
          flagname, value.c_str());
   return false;
 }
+DEFINE_validator(http_auth_scheme, &ValidateHttpAuthScheme);
