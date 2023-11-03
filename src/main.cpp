@@ -11,6 +11,7 @@
 
 #include "DefaultDiskWriter.hpp"
 #include "DownloadEngine.hpp"
+#include "Gflags_modules.hpp"
 #include "HttpInitiateConnectionCommand.hpp"
 #include "InitiateConnectionCommandFactory.hpp"
 #include "SegmentManager.hpp"
@@ -86,6 +87,7 @@ void showUsage() {
 }
 
 int main(int argc, char* argv[]) {
+  gflags::SetVersionString(PACKAGE_NAME + "\n" + PACKAGE_VERSION);
   bool   stdoutLog = false;
   string logfile;
   string dir;
@@ -96,105 +98,56 @@ int main(int argc, char* argv[]) {
   int     c;
   Option* op = new Option();
 
-  while (1) {
-    int                  optIndex = 0;
-    int                  lopt;
-    static struct option longOpts[] = {{"daemon", no_argument, NULL, 'D'},
-                                       {"dir", required_argument, NULL, 'd'},
-                                       {"out", required_argument, NULL, 'o'},
-                                       {"log", required_argument, NULL, 'l'},
-                                       {"split", required_argument, NULL, 's'},
-                                       {"http-proxy", required_argument, &lopt, 1},
-                                       {"http-user", required_argument, &lopt, 2},
-                                       {"http-passwd", required_argument, &lopt, 3},
-                                       {"http-proxy-user", required_argument, &lopt, 4},
-                                       {"http-proxy-passwd", required_argument, &lopt, 5},
-                                       {"http-auth-scheme", required_argument, &lopt, 6},
-                                       {"version", no_argument, NULL, 'v'},
-                                       {"help", no_argument, NULL, 'h'},
-                                       {0, 0, 0, 0}};
-    c                               = getopt_long(argc, argv, "Dd:o:l:s:vh", longOpts, &optIndex);
-    if (c == -1) {
-      break;
-    }
-    switch (c) {
-      case 0: {
-        switch (lopt) {
-          case 1: {
-            pair<string, string> proxy;
-            Util::split(proxy, optarg, ':');
-            int port = (int)strtol(proxy.second.c_str(), NULL, 10);
-            if (proxy.first.empty() || proxy.second.empty() || !(0 < port && port <= 65535)) {
-              cerr << "unrecognized proxy format" << endl;
-              showUsage();
-              exit(1);
-            }
-            op->put("http_proxy_host", proxy.first);
-            op->put("http_proxy_port", proxy.second);
-            op->put("http_proxy_enabled", "true");
-            break;
-          }
-          case 2:
-            op->put("http_user", optarg);
-            break;
-          case 3:
-            op->put("http_passwd", optarg);
-            break;
-          case 4:
-            op->put("http_proxy_user", optarg);
-            op->put("http_proxy_auth_enabled", "true");
-            break;
-          case 5:
-            op->put("http_proxy_passwd", optarg);
-            break;
-          case 6:
-            if (string("BASIC") == optarg) {
-              op->put("http_auth_scheme", "BASIC");
-            } else {
-              cerr << "Currently, supported authentication scheme is BASIC." << endl;
-            }
-            break;
-        }
-        break;
-      }
-      case 'D':
-        daemonMode = true;
-        break;
-      case 'd':
-        dir = optarg;
-        break;
-      case 'o':
-        ufilename = optarg;
-        break;
-      case 'l':
-        if (strcmp("-", optarg) == 0) {
-          stdoutLog = true;
-        } else {
-          logfile = optarg;
-        }
-        break;
-      case 's':
-        split = (int)strtol(optarg, NULL, 10);
-        if (!(1 < split && split < 5)) {
-          cerr << "split must be between 1 and 5." << endl;
-          showUsage();
-          exit(1);
-        }
-        break;
-      case 'v':
-        showVersion();
-        exit(0);
-      case 'h':
-        showUsage();
-        exit(0);
-      default:
-        showUsage();
-        exit(1);
+#pragma region get commandline options
+  gflags::ParseCommandLineFlags(&argc, &argv, true);
+  if (FLAGS_dir.size()) {
+    dir = FLAGS_dir;
+  }
+  if (FLAGS_out.size()) {
+    ufilename = FLAGS_out;
+  }
+  if (FLAGS_log.size()) {
+    if (FLAGS_log == "-") {
+      stdoutLog = true;
+    } else {
+      logfile = FLAGS_log;
     }
   }
+  if (FLAGS_daemon) {
+    daemonMode = true;
+  }
+  if (FLAGS_http_proxy.size()) {
+    pair<string, string> proxy;
+    Util::split(proxy, FLAGS_http_proxy, ':');
+    int port = (int)strtol(proxy.second.c_str(), NULL, 10);
+    op->put("http_proxy_host", proxy.first);
+    op->put("http_proxy_port", proxy.second);
+    op->put("http_proxy_enabled", "true");
+  }
+  if (FLAGS_http_user.size()) {
+    op->put("http_user", FLAGS_http_user);
+  }
+  if (FLAGS_http_passwd.size()) {
+    op->put("http_passwd", FLAGS_http_passwd);
+  }
+  if (FLAGS_http_proxy_user.size()) {
+    op->put("http_proxy_user", FLAGS_http_proxy_user);
+    op->put("http_proxy_auth_enabled", "true");
+  }
+  if (FLAGS_http_proxy_passwd.size()) {
+    op->put("http_proxy_passwd", FLAGS_http_proxy_passwd);
+  }
+  if (FLAGS_http_auth_scheme.size()) {
+    op->put("http_auth_scheme", "BASIC");
+  }
+  if (FLAGS_split > 0) {
+    split = FLAGS_split;
+  }
+#pragma endregion
+
   if (optind == argc) {
     cerr << "specify at least one URL" << endl;
-    showUsage();
+    // showUsage();
     exit(1);
   }
   if (daemonMode) {

@@ -9,11 +9,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(fmt CONFIG REQUIRED)
+find_package(gflags CONFIG REQUIRED)
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE include)
-target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt)
+target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt gflags::gflags)
 
 configure_file(
     ${PROJECT_SOURCE_DIR}/conf/config.hpp.in 

@@ -7,7 +7,7 @@
             "generator": "Ninja",
             "description": "use GCC 11 with Ninja",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
-            "toolchainFile": "${env:VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+            "toolchainFile": "/home/clbi/code_tools/vcpkg/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
                 "CMAKE_C_COMPILER": "/usr/bin/gcc",

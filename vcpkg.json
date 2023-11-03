@@ -6,6 +6,7 @@
     "description": "A C++ executable web source downloader.",
     "dependencies": [
         "gtest",
-        "fmt"
+        "fmt",
+        "gflags"
     ]
 }
